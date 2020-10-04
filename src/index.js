@@ -39,8 +39,12 @@ export default class TextRemark {
     }
   }
   removeRemark(index) {
-    this.remarks.splice(index, 1)
-    this.updateShowText()
+    if (!isNaN(index) && index >= 0 && index < this.remarks.length) {
+      this.remarks.splice(index, 1)
+      this.updateShowText()
+    } else {
+      console.warn('params index "' + index + '" is not right')
+    }
   }
   getJson() {
     return {
@@ -80,7 +84,7 @@ export default class TextRemark {
 }
 function addEvents(textRemark) {
   mixinEvent(textRemark)
-  this.$container.addEventListener(
+  textRemark.$container.addEventListener(
     'mousedown',
     e => {
       textRemark.$container.classList.add('mousedown')
@@ -88,8 +92,9 @@ function addEvents(textRemark) {
       let $target = e.target
       if ($target && $target.classList.contains('text-remark-tag')) {
         let index = $target.getAttribute('data-index')
-        let tagType = $target.getAttribute('data-type')
-        textRemark.dispatchEvent('tag-selected', { target: e.target, tagType, index, remark: { ...textRemark.remarks[index] } })
+        index = index ? parseInt(index) : index
+        let remarkType = $target.getAttribute('data-type')
+        textRemark.dispatchEvent('remark-selected', { target: e.target, remarkType, index, remark: { ...textRemark.remarks[index] } })
       }
     },
     false

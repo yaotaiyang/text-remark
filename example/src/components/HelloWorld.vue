@@ -6,9 +6,11 @@
         <li v-for="(li, index) in tagList" :key="index">{{ index + 1 }}:{{ li.data.text }}</li>
       </ul>
       <textarea v-model="remarkData" class="mark-data" cols="30" rows="10"></textarea>
-      <button @click="addRemark">添加</button>
+      <button @click="addRemark">添加remark</button>
       <button @click="getJson">获取json</button>
       <button @click="clearActive">清除选中</button>
+      <br />
+      <input type="text" width="100" v-model="removeIndex" placeholder="输入索引号" /><button @click="removeRemark">删除remark</button>
     </div>
   </div>
 </template>
@@ -35,7 +37,8 @@ export default {
       content: '',
       contentHtml: '',
       textRemark: null,
-      remarkData: null
+      remarkData: null,
+      removeIndex: -1
     }
   },
   mounted() {
@@ -57,9 +60,13 @@ export default {
         }
       ]
     })
-    this.textRemark.on('tag-selected', this.tagSelected)
+    this.textRemark.on('remark-selected', this.tagSelected)
   },
   methods: {
+    removeRemark() {
+      let num = this.removeIndex
+      this.textRemark.removeRemark(num)
+    },
     tagSelected(e) {
       console.log(e)
       this.remarkData = JSON.stringify(e.remark.data)

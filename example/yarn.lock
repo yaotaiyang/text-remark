@@ -7705,10 +7705,10 @@ terser@^4.1.2, terser@^4.6.12:
     source-map "~0.6.1"
     source-map-support "~0.5.12"
 
-text-remark@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npm.taobao.org/text-remark/download/text-remark-0.0.3.tgz?cache=0&sync_timestamp=1601799213532&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftext-remark%2Fdownload%2Ftext-remark-0.0.3.tgz#51e3faf21652fea1d4b0bd8c0c91d3fc35db92bc"
-  integrity sha1-UeP68hZS/qHUsL2MDJHT/DXbkrw=
+text-remark@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.npm.taobao.org/text-remark/download/text-remark-0.0.4.tgz?cache=0&sync_timestamp=1601802204480&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftext-remark%2Fdownload%2Ftext-remark-0.0.4.tgz#ca59498c528354301431342bef44588d909f1e42"
+  integrity sha1-yllJjFKDVDAUMTQr70RYjZCfHkI=
 
 text-table@^0.2.0:
   version "0.2.0"

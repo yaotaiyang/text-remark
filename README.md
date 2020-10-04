@@ -11,7 +11,7 @@ const textRemark = new TextRemark({
   text: '文本标注测试',
   // remarks为标注的数据信息，有四个字段，开始位置baseOffset、结束位置extentOffset、类型、json数据
   // 其中type会添加到标注dom标签的css上 <span data-type="danger" data-index="0" class="text-remark-tag text-remark-danger">此次会议</span>
-  // data在 textRemark的tag-selected事件中，会拿到
+  // data在 textRemark的remark-selected事件中，可以拿到
   remarks: [
     {
       baseOffset: 4,
@@ -52,6 +52,6 @@ npm start
 
 ### 事件
 
-| 事件         | 描述                                                       | 其它                            |
-| ------------ | ---------------------------------------------------------- | ------------------------------- |
-| tag-selected | textRemark.on('tag-selected', function(e){console.log(e)}) | 选中标记的 tag 时，会触发该方法 |
+| 事件            | 描述                                                          | 其它                               |
+| --------------- | ------------------------------------------------------------- | ---------------------------------- |
+| remark-selected | textRemark.on('remark-selected', function(e){console.log(e)}) | 选中标记的 remark 时，会触发该方法 |
