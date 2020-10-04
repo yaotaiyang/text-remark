@@ -1,6 +1,6 @@
 {
   "name": "text-remark",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "main": "lib/index.js",
   "scripts": {
     "build": "npx babel src --out-dir lib --source-maps",

@@ -20,60 +20,31 @@ export default class TextRemark {
     this.$showText = createElement('div', { className: 'text-remark-content' })
     this.$realText = createElement('div', { className: 'text-remark-content real-text' })
     this.$realText.innerText = text
-    this.addEvents()
+    addEvents(this)
     this.$container.appendChild(this.$realText)
     this.$container.appendChild(this.$showText)
 
     this.updateShowText()
   }
-  addRemark(type) {
+  addRemark(type, data = {}) {
     // 获取当前的active
+    // data为默认的数据
     if (this.activeRemark) {
       let curSection = getRange(type, this.activeRemark)
       if (curSection.baseOffset !== curSection.extentOffset) {
-        this.remarks.push({ type, baseOffset: curSection.baseOffset, extentOffset: curSection.extentOffset })
+        this.remarks.push({ type, baseOffset: curSection.baseOffset, extentOffset: curSection.extentOffset, data })
         this.activeRemark = null
         this.updateShowText()
       }
     }
   }
-  addEvents() {
-    mixinEvent(this)
-    this.$container.addEventListener(
-      'mousedown',
-      e => {
-        this.$container.classList.add('mousedown')
-        this.startSelect = true
-        let $target = e.target
-        if ($target && $target.classList.contains('text-remark-tag')) {
-          let index = $target.getAttribute('data-index')
-          let tagType = $target.getAttribute('data-type')
-          this.dispatchEvent('tag-selected', { target: e.target, tagType, remark: { ...this.remarks[index] } })
-        }
-      },
-      false
-    )
-    this.$container.addEventListener(
-      'mouseup',
-      e => {
-        this.$container.classList.remove('mousedown')
-        this.startSelect = false
-        this.mySelection(e)
-      },
-      false
-    )
-    this.$realText.addEventListener(
-      'mousemove',
-      e => {
-        if (this.startSelect) {
-          this.mySelection(e)
-        }
-      },
-      false
-    )
+  removeRemark(index) {
+    this.remarks.splice(index, 1)
+    this.updateShowText()
   }
   getJson() {
     return {
+      text: this.text,
       remarks: this.remarks.filter(item => item.type !== 'active')
     }
   }
@@ -106,6 +77,41 @@ export default class TextRemark {
     let curHtml = renderHashText(this.text, remarks)
     this.$showText.innerHTML = curHtml
   }
+}
+function addEvents(textRemark) {
+  mixinEvent(textRemark)
+  this.$container.addEventListener(
+    'mousedown',
+    e => {
+      textRemark.$container.classList.add('mousedown')
+      textRemark.startSelect = true
+      let $target = e.target
+      if ($target && $target.classList.contains('text-remark-tag')) {
+        let index = $target.getAttribute('data-index')
+        let tagType = $target.getAttribute('data-type')
+        textRemark.dispatchEvent('tag-selected', { target: e.target, tagType, index, remark: { ...textRemark.remarks[index] } })
+      }
+    },
+    false
+  )
+  textRemark.$container.addEventListener(
+    'mouseup',
+    e => {
+      textRemark.$container.classList.remove('mousedown')
+      textRemark.startSelect = false
+      textRemark.mySelection(e)
+    },
+    false
+  )
+  textRemark.$realText.addEventListener(
+    'mousemove',
+    e => {
+      if (textRemark.startSelect) {
+        textRemark.mySelection(e)
+      }
+    },
+    false
+  )
 }
 // 其它方法
 // 事件属性处理
