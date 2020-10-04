@@ -1,5 +1,3 @@
-import { createElement, renderHashText, getRange } from './utils'
-import { mixinEvent } from './event'
 export default class TextRemark {
   constructor(options) {
     const { container, text = '', remarks = [], links = [] } = options
@@ -107,5 +105,119 @@ export default class TextRemark {
     let remarks = baseArr.concat(this.remarks)
     let curHtml = renderHashText(this.text, remarks)
     this.$showText.innerHTML = curHtml
+  }
+}
+// 其它方法
+// 事件属性处理
+function mixinEvent(target) {
+  target.__events = target.__events || []
+  let events = target.__events
+  target.on = function (type, cb) {
+    events.push({ type, cb })
+    return target
+  }
+  target.off = function (type, cb) {
+    for (let i = 0; i < events.length; i++) {
+      if (cb === undefined) {
+        events = []
+      } else {
+        let curEvent = events[i]
+        if (curEvent.type === type && curEvent.cb === cb) {
+          events.splice(i, 1)
+          i--
+        }
+      }
+    }
+    return target
+  }
+  target.once = function (type, cb) {
+    const listener = function (...args) {
+      cb.apply(target, args)
+      self.off(type, cb)
+    }
+    return target.on(type, listener)
+  }
+  target.dispatchEvent = function (type, option) {
+    events.forEach(item => {
+      if (item.type === type) {
+        item.cb.call(target, { type, ...option })
+      }
+    })
+    return target
+  }
+}
+// 其它通用方法
+function getHashText(text, remarks) {
+  let textMap = Object.create(null)
+  if (remarks.length > 0) {
+    let splitNums = []
+    remarks.forEach(obj => {
+      splitNums.push(obj.baseOffset)
+      splitNums.push(obj.extentOffset)
+    })
+    splitNums.sort((a, b) => a - b)
+    let prevIndex = 0
+    let oriText = text
+    for (let i = 0; i < splitNums.length; i++) {
+      let curIndex = splitNums[i]
+      textMap[curIndex] = oriText.substring(prevIndex, curIndex)
+      prevIndex = curIndex
+    }
+    // 剩余的文本
+    if (prevIndex < oriText.length - 1) {
+      textMap[oriText.length - 1] = oriText.substring(prevIndex)
+    }
+  }
+  return textMap
+}
+function getRange(type, section) {
+  // 输出baseOffset < extentOffset
+  // 如果有参数section 采用参数，如果没有，获取当前页面
+  let curSection = section || window.getSelection()
+  let { baseOffset, extentOffset } = curSection
+  let max = Math.max(baseOffset, extentOffset)
+  let min = Math.min(baseOffset, extentOffset)
+  return {
+    baseOffset: min,
+    extentOffset: max,
+    type
+  }
+}
+function createElement(tagName, attrs = {}) {
+  // 创建元素
+  const $dom = document.createElement(tagName)
+  for (let key in attrs) {
+    $dom[key] = attrs[key]
+  }
+  return $dom
+}
+
+function renderHashText(text, remarks) {
+  let textHashMap = getHashText(text, remarks)
+  if (remarks.length === 0) {
+    return text
+  } else {
+    let resHtml = ''
+    let remarkIndex = 0
+    for (let i = 0; i < remarks.length; i++) {
+      let curObj = remarks[i]
+      if (textHashMap[curObj.baseOffset]) {
+        if (curObj.type === 'active') {
+          textHashMap[curObj.baseOffset] += '<span data-type="' + curObj.type + '" class="text-remark-tag text-remark-' + curObj.type + '">'
+        } else {
+          textHashMap[curObj.baseOffset] += '<span data-type="' + curObj.type + '" data-index="' + remarkIndex + '" class="text-remark-tag text-remark-' + curObj.type + '">'
+        }
+      }
+      if (textHashMap[curObj.extentOffset]) {
+        textHashMap[curObj.extentOffset] += '</span>'
+      }
+      if (curObj.type !== 'active') {
+        remarkIndex++
+      }
+    }
+    for (let key in textHashMap) {
+      resHtml += textHashMap[key]
+    }
+    return resHtml
   }
 }
