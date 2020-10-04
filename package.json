@@ -1,6 +1,7 @@
 {
   "name": "text-remark",
   "version": "0.0.1",
+  "main": "src/index.js",
   "scripts": {
     "start": "npm run serve",
     "serve": "vue-cli-service serve",
