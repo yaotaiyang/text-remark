@@ -1,17 +1,19 @@
 .text-remark {
   text-align: left;
+  position: relative;
 }
 .text-remark-content::selection {
   background: transparent;
 }
 .text-remark .text-remark-content {
-  position: absolute;
+  position: relative;
   left: 0;
   top: 0;
-  width: '100%';
+  width: 100%;
 }
 .text-remark .real-text {
   opacity: 0;
+  position: absolute;
 }
 
 .text-remark.mousedown .real-text {
@@ -24,8 +26,20 @@
   background-color: #ff0;
 }
 .text-remark .text-remark-danger {
-  background-color: #f00;
+  background-color: #f56c6c;
 }
 .text-remark .text-remark-normal {
-  background-color: aqua;
+  background-color: #409eff;
+}
+.text-remark .text-remark-selected {
+  position: relative;
+}
+.text-remark .text-remark-selected:after {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #2132ff;
 }

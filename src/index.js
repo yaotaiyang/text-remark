@@ -46,10 +46,27 @@ export default class TextRemark {
       console.warn('params index "' + index + '" is not right')
     }
   }
+  updateRemark(index, json) {
+    if (!isNaN(index) && index >= 0 && index < this.remarks.length) {
+      let oldJson = this.remarks[index]
+      this.remarks[index] = Object.assign(oldJson, json)
+      this.updateShowText()
+    } else {
+      console.warn('params index "' + index + '" is not right')
+    }
+  }
   getJson() {
     return {
       text: this.text,
       remarks: this.remarks.filter(item => item.type !== 'active')
+    }
+  }
+  setSelectedRemark(index) {
+    this.$showText.querySelectorAll('.text-remark-tag').forEach(item => {
+      item.classList.remove('text-remark-selected')
+    })
+    if (index !== undefined && index !== null) {
+      this.$showText.querySelector('.text-remark-tag[data-index="' + index + '"]').classList.add('text-remark-selected')
     }
   }
   clearActive() {
@@ -95,6 +112,7 @@ function addEvents(textRemark) {
         index = index ? parseInt(index) : index
         let remarkType = $target.getAttribute('data-type')
         textRemark.dispatchEvent('remark-selected', { target: e.target, remarkType, index, remark: { ...textRemark.remarks[index] } })
+        textRemark.setSelectedRemark(index)
       }
     },
     false

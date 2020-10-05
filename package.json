@@ -12,6 +12,20 @@
     "web",
     "text remark"
   ],
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
   "author": "yaotaiyang99@gmail.com",
   "license": "MIT",
   "devDependencies": {
