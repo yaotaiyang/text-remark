@@ -1,6 +1,7 @@
 .text-remark {
   text-align: left;
   position: relative;
+  text-indent: 2em;
 }
 .text-remark-content::selection {
   background: transparent;
@@ -31,15 +32,9 @@
 .text-remark .text-remark-normal {
   background-color: #409eff;
 }
-.text-remark .text-remark-selected {
-  position: relative;
+.text-remark .text-remark-other {
+  background-color: #ccc;
 }
-.text-remark .text-remark-selected:after {
-  content: '';
-  position: absolute;
-  left: -1px;
-  top: -1px;
-  width: 100%;
-  height: 100%;
-  border: 1px solid #2132ff;
+.text-remark .text-remark-selected {
+  background-color: #ff0;
 }
