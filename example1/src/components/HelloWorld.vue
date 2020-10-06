@@ -146,9 +146,9 @@ export default {
         this.remarkIndex = index
         let curRemark = this.textRemark.remarks[index]
         this.form = curRemark.data
-        this.textRemark.setSelectedRemark(index)
         // 更新背景色
         this.textRemark.updateRemark(index, { backgroundColor: str2Color(curRemark) })
+        this.textRemark.setSelectedRemark(index)
       } else {
         console.warn('请选中左侧文本')
       }
