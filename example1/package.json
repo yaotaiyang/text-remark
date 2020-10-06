@@ -11,7 +11,8 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
-    "text-remark": "0.0.9",
+    "filter-clone": "^0.0.12",
+    "text-remark": "0.0.12",
     "vue": "^2.6.11"
   },
   "devDependencies": {

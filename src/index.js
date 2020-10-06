@@ -19,7 +19,7 @@ export default class TextRemark {
     //显示
     this.$showText = createElement('div', { className: 'text-remark-content' })
     this.$realText = createElement('div', { className: 'text-remark-content real-text' })
-    this.$realText.innerText = text
+    this.$realText.innerHTML = text
     addEvents(this)
     this.$container.appendChild(this.$realText)
     this.$container.appendChild(this.$showText)
@@ -30,7 +30,7 @@ export default class TextRemark {
     // 获取当前的active
     // data为默认的数据
     if (this.activeRemark) {
-      let curSection = getRange(type, this.activeRemark)
+      let curSection = getRange.call(this, type, this.activeRemark)
       if (curSection.baseOffset !== curSection.extentOffset) {
         this.remarks.push({ type, baseOffset: curSection.baseOffset, extentOffset: curSection.extentOffset, data })
         this.activeRemark = null
@@ -74,7 +74,7 @@ export default class TextRemark {
     this.updateShowText()
   }
   mySelection() {
-    let section = getRange('active')
+    let section = getRange.call(this, 'active')
     let canAdd = true
     for (let i = 0; i < this.remarks.length; i++) {
       let obj = this.remarks[i]
@@ -87,7 +87,7 @@ export default class TextRemark {
       }
     }
     if (canAdd && section.baseOffset !== section.extentOffset) {
-      this.activeRemark = getRange('active')
+      this.activeRemark = getRange.call(this, 'active')
       this.updateShowText()
     }
   }
@@ -232,9 +232,9 @@ function renderHashText(text, remarks) {
       let curObj = remarks[i]
       if (textHashMap[curObj.baseOffset]) {
         if (curObj.type === 'active') {
-          textHashMap[curObj.baseOffset] += '<span data-type="' + curObj.type + '" class="text-remark-tag text-remark-' + curObj.type + '">'
+          textHashMap[curObj.baseOffset] += '<span style="background-color:' + curObj.backgroundColor + '" data-type="' + curObj.type + '" class="text-remark-tag text-remark-' + curObj.type + '">'
         } else {
-          textHashMap[curObj.baseOffset] += '<span data-type="' + curObj.type + '" data-index="' + remarkIndex + '" class="text-remark-tag text-remark-' + curObj.type + '">'
+          textHashMap[curObj.baseOffset] += '<span style="background-color:' + curObj.backgroundColor + '" data-type="' + curObj.type + '" data-index="' + remarkIndex + '" class="text-remark-tag text-remark-' + curObj.type + '">'
         }
       }
       if (textHashMap[curObj.extentOffset]) {

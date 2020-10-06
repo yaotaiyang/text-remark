@@ -4,7 +4,7 @@
   text-indent: 2em;
 }
 .text-remark-content::selection {
-  background: transparent;
+  background: #f00;
 }
 .text-remark .text-remark-content {
   position: relative;
@@ -36,5 +36,16 @@
   background-color: #ccc;
 }
 .text-remark .text-remark-selected {
-  background-color: #ff0;
+  position: relative;
+}
+.text-remark .text-remark-selected:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 5px solid #f00;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  left: 0;
+  top: 0;
 }

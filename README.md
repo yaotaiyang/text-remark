@@ -46,6 +46,7 @@ npm start
 | ------------ | --------------------------------------- | ---------------------------------------------------------------- |
 | addRemark    | 添加标注 addRemark(type, data = {})     | data 会保存到 json 中                                            |
 | removeRemark | 移出标注 removeRemark(index)            | index 为索引号                                                   |
+| updateRemark | 更新标注 updateRemark(index, data={})   | index 为索引号，data 为 object 数据                              |
 | getJson      | 获取组件 json 数据 {text:'',remarks:[]} | 获取到 json 数据                                                 |
 | clearActive  | 清楚选中状态 clearActive()              | 组件重写默认的选中状态，光标 blur 的时候无法清除，利用该方法清除 |
 
