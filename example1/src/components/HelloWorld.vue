@@ -14,7 +14,7 @@
         <el-select size="small" style="width:100%" v-model="remarkIndex" filterable placeholder="请选择" @change="remarkChange">
           <el-option v-for="(item, index) in remarkList" :key="index" :label="getRemarkText(item, index)" :value="index"> </el-option>
         </el-select>
-        <el-form size="small" class="remark-form" v-if="remarkIndex !== ''">
+        <el-form size="small" class="remark-form" v-if="remark && remarkIndex !== ''">
           <el-form-item label="标注类型" v-if="remark">
             <el-select style="width:100%" v-model="remark.type" @change="changeRemarkType" filterable placeholder="请选择">
               <el-option v-for="item in remarkTypes" :key="item.type" :label="item.text" :value="item.id"> </el-option>
@@ -23,7 +23,7 @@
           <!-- <el-form-item label="标注名称">
             <el-input v-model="form.text"></el-input>
           </el-form-item> -->
-          <el-form-item label="标注内容" v-if="remark.type === 0">
+          <el-form-item label="标注内容" v-if="remark && remark.type === 0">
             <el-input type="textarea" v-model="form.content"></el-input>
           </el-form-item>
           <i @click="removeRemark" class="remark-delete el-icon-delete"></i>
