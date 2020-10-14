@@ -203,14 +203,45 @@ function getRange(type, section) {
   // 输出baseOffset < extentOffset
   // 如果有参数section 采用参数，如果没有，获取当前页面
   let curSection = section || window.getSelection()
-  let { baseOffset, extentOffset } = curSection
+  let { baseNode, baseOffset, extentOffset } = curSection
   let max = Math.max(baseOffset, extentOffset)
   let min = Math.min(baseOffset, extentOffset)
-  return {
-    baseOffset: min,
-    extentOffset: max,
-    type
+  let disOffset = 0
+  if (isParent(baseNode, this.$realText)) {
+    // 如果是有层级的情况
+    while (baseNode.parentNode !== this.$realText) {
+      baseNode = baseNode.parentNode
+    }
+    // 如果不是node节点，需要算上标签长度 如 P <p>
+    if (!(baseNode instanceof Text)) {
+      disOffset += 2 + baseNode.tagName.length
+    }
+    let $nodeList = this.$realText.childNodes
+    let index = [].indexOf.call($nodeList, baseNode)
+    for (let i = 0; i < index; i++) {
+      let curNode = $nodeList[i]
+      if (curNode instanceof Text) {
+        disOffset += curNode.wholeText.length
+      } else {
+        disOffset += curNode.outerHTML.length
+      }
+    }
   }
+  return {
+    type,
+    baseOffset: min + disOffset,
+    extentOffset: max + disOffset
+  }
+}
+function isParent(child, parent) {
+  if (child && child !== document) {
+    if (child.parentNode === parent) {
+      return true
+    } else {
+      return isParent(child.parentNode, parent)
+    }
+  }
+  return false
 }
 function createElement(tagName, attrs = {}) {
   // 创建元素
