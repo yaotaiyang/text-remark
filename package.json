@@ -28,6 +28,10 @@
   },
   "author": "yaotaiyang99@gmail.com",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yaotaiyang/text-remark/issues"
+  },
+  "homepage": "https://github.com/yaotaiyang/text-remark",
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
