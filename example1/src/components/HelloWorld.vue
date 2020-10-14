@@ -23,7 +23,7 @@
           <!-- <el-form-item label="标注名称">
             <el-input v-model="form.text"></el-input>
           </el-form-item> -->
-          <el-form-item label="标注内容" v-if="remark && remark.type === 0">
+          <el-form-item label="标注内容" v-if="remark && remark.type === ''">
             <el-input type="textarea" v-model="form.content"></el-input>
           </el-form-item>
           <i @click="removeRemark" class="remark-delete el-icon-delete"></i>
@@ -70,10 +70,10 @@ export default {
       textRemark: null,
       remarkIndex: '',
       remarkTypes: [
-        { id: 1, text: '重要' },
-        { id: 2, text: '一般' },
+        { id: '1', text: '重要' },
+        { id: '2', text: '一般' },
         // 自定义标签 id为0
-        { id: 0, text: '自定义' }
+        { id: '', text: '自定义' }
       ],
       form: {
         text: '',
@@ -88,13 +88,13 @@ export default {
         {
           baseOffset: 5,
           extentOffset: 7,
-          type: 1,
+          type: '1',
           data: { content: '这里为第一条标注的内容' }
         },
         {
           baseOffset: 691,
           extentOffset: 693,
-          type: 2,
+          type: '2',
           data: { content: '这里为第二条标注的内容' }
         }
       ]
@@ -155,7 +155,11 @@ export default {
     },
     getRemarkText(item, index) {
       let option = this.remarkTypes.filter(it => it.id === item.type)[0]
-      return index + 1 + '.' + option.text
+      if(option){
+        return index + 1 + '.' + option.text
+      }
+      return ''
+      
     }
   }
 }
