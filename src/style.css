@@ -4,7 +4,10 @@
   text-indent: 2em;
 }
 .text-remark-content::selection {
-  background: #f00;
+  background: transparent;
+}
+.text-remark-content *::selection {
+  background: transparent;
 }
 .text-remark .text-remark-content {
   position: relative;
