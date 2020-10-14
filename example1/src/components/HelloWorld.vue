@@ -158,7 +158,7 @@ export default {
       if(option){
         return index + 1 + '.' + option.text
       }
-      return ''
+      return index + 1
       
     }
   }
