@@ -1,6 +1,6 @@
 {
   "name": "text-remark",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "JS Document annotation Base Library 文本注释标注基础库",
   "main": "lib/index.js",
   "scripts": {
